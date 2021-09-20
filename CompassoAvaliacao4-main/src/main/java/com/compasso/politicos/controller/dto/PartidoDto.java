@@ -44,7 +44,6 @@ public class PartidoDto {
     }
 
     public LocalDate getDataFundacao() {
-        System.out.println("aqui");
         return dataFundacao;
     }
 }

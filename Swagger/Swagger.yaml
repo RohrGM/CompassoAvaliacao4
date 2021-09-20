@@ -1,0 +1,449 @@
+openapi: 3.0.1
+info:
+  title: API Avaliação 4
+  description: Atividade1 - Cadastro e consulta de carros com spring
+  version: 0.0.1
+  termsOfService: https://mockapi.io
+  contact:
+    name: Exemplo
+    email: exemplo@email.com
+  license:
+    name: "Lincença: GPLv3"
+    url: https://www.gnu.org/licenses/glp-3.0.html~
+servers:
+  - url: http://localhost:8080/api
+  
+
+paths:
+  /associados:
+    get:
+      summary: Recupera todos os Associados e filtra por cargo(opcional)
+      parameters: 
+      - name: cargo
+        in: query
+        schema:
+          type: string
+        required: false
+      
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AssociadoDto"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              example: Entidade não encontrada
+    post:
+      summary: Cadastra um Associado
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssociadoForm"
+        
+      responses:
+        201:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssociadoDto"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: Retorna os campos incorretos 
+              
+  /associados/{id}:
+    get:
+      summary: Recupera um Associado pelo ID
+      parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+      responses:
+        200:
+          description: Sucesso
+          content:
+            apllication/json:
+              schema:
+                $ref: "#/components/schemas/AssociadoDto"
+        
+        404:
+          description: Not Found
+          content:
+            application/json:
+              example: Entidade não encontrada
+    put:
+      parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AtualizaAssociadoForm"
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssociadoDto"
+        
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: Retorna os campos incorretos 
+    delete:
+      summary: Deleta um Associado pelo ID
+      parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+      responses:
+        200:
+          description: Sucesso
+          content:
+            apllication/json:
+              example: "Entidade Removida"
+        404:
+          description: Not Found 
+          content:
+            application/json:
+              example: Entidade não encontrada         
+  
+  /associados/partidos:
+    put:
+      description: Vincula um Associado a um Partido
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VinculaAssociadoPartidoForm"
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssociadoDto"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: Retorna os campos incorretos 
+                
+  /associados/{idAssociado}/partidos/{idPartido}:
+    put:
+      summary: Desvincula um Associado de um Partido
+      parameters:
+      - name: idAssociado
+        in: path
+        schema:
+          type: integer
+        required: true
+      - name: idPartido
+        in: path
+        schema:
+          type: integer
+        required: true
+        
+      responses:
+        200:
+          description: Sucesso
+          content:
+            apllication/json:
+              schema:
+                $ref: "#/components/schemas/AssociadoDto"
+        
+        404:
+          description: Not Found
+          content:
+            application/json:
+              example: Entidade não encontrada
+    
+  /partidos:
+    get:
+      summary: Recupera todos os Partidos e filtra por Ideologia(opcional)
+      parameters: 
+      - name: ideologia
+        in: query
+        schema:
+          type: string
+        required: false
+      
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PartidoDto"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              example: Entidade não encontrada
+    post:
+      summary: Cadastra um Partido
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PartidoForm"
+        
+      responses:
+        201:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PartidoDto"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: Retorna os campos incorretos 
+                
+  /partidos/{id}:
+    get:
+      summary: Recupera um partido pelo ID
+      parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+      responses:
+        200:
+          description: Sucesso
+          content:
+            apllication/json:
+              schema:
+                $ref: "#/components/schemas/PartidoDto"
+        
+        404:
+          description: Not Found
+          content:
+            application/json:
+              example: Entidade não encontrada
+    put:
+      parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AtualizaPartidoForm"
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PartidoDto"
+                
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: Retorna os campos incorretos 
+    delete:
+      summary: Deleta um Partido por ID
+      parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+      responses:
+        200:
+          description: Sucesso
+          content:
+            apllication/json:
+              example: "Entidade Removida"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              example: Entidade não encontrada      
+  
+  /partidos/{id}/associados:
+    get:
+      summary: Recupera todos os Associados de um Partido especifico)
+      parameters: 
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+      
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AssociadoDto"
+        
+        404:
+          description: Not Found
+          content:
+            application/json:
+              example: Entidade não encontrada   
+                  
+components:
+  schemas:
+    PartidoDto:
+      description: Retorno da entidade PartidoDto
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: integer
+        sigla:
+          type: string
+        ideologia:
+          $ref: "#/components/schemas/Ideologia"
+        dataFundacao:
+          type: string
+          format: date
+          
+    AssociadoDto:
+      description: Retorno da entidade AssociadoDto
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: integer
+        cargopolitico: 
+          $ref: "#/components/schemas/Cargo"
+        datanascimneto:
+          type: string
+          format: date
+        partido:
+          $ref: "#/components/schemas/PartidoDto"
+        sexo:
+          $ref: "#/components/schemas/Sexo"
+   
+    PartidoForm:
+      description: Envia as informações de cadastro da entidade
+      type: object
+      properties:
+        nome:
+          type: string
+        sigla:
+          type: string
+        ideologia:
+          $ref: "#/components/schemas/Ideologia"
+        dataFundacao:
+          type: string
+          format: date
+          
+    AssociadoForm:
+      description: Envia as informações de cadastro da entidade
+      type: object
+      properties:
+        nome:
+          type: string
+        cargopolitico:
+          $ref: "#/components/schemas/Cargo"
+        nomePartido:
+          type: string
+        sexo:
+          $ref: "#/components/schemas/Sexo"
+          
+    VinculaAssociadoPartidoForm:
+      description: Envia as informações de vinculação entre associado e partido
+      type: object
+      properties:
+        idAssociado:
+          type: integer
+        idPartido:
+          type: integer
+    
+    AtualizaAssociadoForm:
+      description: Envia as informações para atualização de um Associado
+      type: object
+      properties:
+        cargopolitico:
+          $ref: "#/components/schemas/Cargo"
+        partidoId:
+          type: integer
+          
+    AtualizaPartidoForm:
+      description: Envia as informações para atualização de um Partido
+      type: object
+      properties:
+        nome:
+          type: string
+        sigla:
+          type: string
+        ideologia:
+          $ref: "#/components/schemas/Ideologia"
+    
+    Sexo:
+      description: Enum de Sexos
+      type: string
+      enum:
+        - MASCULINO
+        - FEMININO
+    
+    Cargo:
+      description: Enum dos Cargos
+      type: string
+      enum:
+        - VEREADOR
+        - PREFEITO
+        - DEPUTADO_ESTADUAL
+        - DEPUTADO_FEDERAL
+        - SENADOR
+        - PRESIDENTE
+        - NENHUM
+    
+    Ideologia:
+      description: Enum das Ideologias
+      type: string
+      enum:
+        - DIREITA
+        - CENTRO
+        - ESQUERDA
+        
+      
+    
+      
+
+
+        
+            
+      
+  
+              
+
+          
+          
